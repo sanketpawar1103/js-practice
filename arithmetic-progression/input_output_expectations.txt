@@ -1,0 +1,21 @@
+# Input and expected output combinations for an arithmetic progression
+  
+  Input    |        Expected Output 
+
+    0      |              0 
+    
+    1      |              1 
+    
+    2      |              3
+    
+    3      |              6 
+    
+    4      |              10 
+    
+    5      |              15 
+    
+    7      |              28 
+    
+    9      |              45 
+    
+    10     |              55 
