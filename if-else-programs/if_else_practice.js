@@ -18,3 +18,9 @@ if(true) {
 }
 
 console.log("I am outside an If/Else block");
+
+
+// Use of Ternary Operator
+const ageOfPerson = 50; 
+const result = (ageOfPerson >= 18) ? "Can Vote and Drive": "Can't Vote and Drive";
+console.log(result);
