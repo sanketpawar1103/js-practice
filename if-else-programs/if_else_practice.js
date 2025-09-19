@@ -29,3 +29,13 @@ if( true <= (false !== true)) {
 } else {
   console.log("In an Else block")
 }
+
+// Using ',' to saperate conditions in an if condition 
+const x = 10;
+const y = 20;
+
+if( x === 10, y !== 20){
+  console.log("I am in an If block");
+} else {
+  console.log("I am in an Else block");
+}
