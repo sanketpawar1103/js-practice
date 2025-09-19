@@ -9,7 +9,6 @@ if (age >= 18) {
   console.log("You can't Drive");
 }
 
-
 // Checking the flow of code based on decisions
 if(true) {
   console.log("I am inside an If block ");
@@ -19,8 +18,14 @@ if(true) {
 
 console.log("I am outside an If/Else block");
 
-
 // Use of Ternary Operator
 const ageOfPerson = 50; 
 const result = (ageOfPerson >= 18) ? "Can Vote and Drive": "Can't Vote and Drive";
 console.log(result);
+
+// Multiple Expressions in an If consition 
+if( true <= (false !== true)) {
+  console.log("In an If block")
+} else {
+  console.log("In an Else block")
+}
