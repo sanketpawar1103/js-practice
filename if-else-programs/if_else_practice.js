@@ -39,3 +39,10 @@ if( x === 10, y !== 20){
 } else {
   console.log("I am in an Else block");
 }
+
+// Checking the behaviour of an undefined 
+if((undefined)) {
+  console.log("In an If block");
+} else {
+  console.log("In an Else block");
+}
