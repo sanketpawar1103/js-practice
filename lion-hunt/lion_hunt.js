@@ -1,6 +1,7 @@
-const testCase1 = "LZ";
-const testCase2 = "L Z";
-const testCase3 = "L ZL";
+
+const testCase1 = "LZL   Z";
+const testCase2 = "L  Z  ";
+const testCase3 = "    ";
 
 const testCaseToUse = testCase3;
 const stringOfALionAZebraAPatch = testCaseToUse;
@@ -32,12 +33,11 @@ while(counterOfString < stringOfALionAZebraAPatch.length) {
       index++;
     }
 
-    if(leastDistance < output)
-    {
-      output = leastDistance;
-    } 
-
   }
+
+  if(leastDistance < output) {
+    output = leastDistance;
+  } 
 
   counterOfString++;
 }
