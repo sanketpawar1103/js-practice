@@ -1,0 +1,27 @@
+#An input and an expected output combinations for the program of reverse a number.
+
+Input         |       Expected output
+  
+  0           |              0
+
+  1           |              1
+
+  5           |              5
+
+  11          |              11
+  
+  19          |              91
+  
+  47          |              74
+  
+  91          |              19
+  
+  500         |               5  (If a number ends with 0, then for reversing it, leading '0' is not considered) 
+  
+  101         |             101
+  
+  234         |             432
+  
+  1234        |            4321
+  
+  789456      |          654987
