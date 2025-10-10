@@ -1,6 +1,6 @@
 function guessNumber() {
-  const gussedstring = prompt("Guess a Number :");
-  return parseInt(gussedstring);
+  const gussedString = prompt("Guess a Number :");
+  return parseInt(gussedString);
 }
 
 function giveHint(randomNumber, guessedNumber) {
