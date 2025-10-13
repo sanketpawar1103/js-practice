@@ -51,7 +51,7 @@ function playMatch(score, inningNumber, currentBatter, targetScore) {
 
 function decideWinner(firstBattingTeam, innig1Score, innig2Score) {
   if (innig1Score === innig2Score) {
-    return "Match deaw";
+    return "Match drow";
   }
 
   return firstBattingTeam += innig1Score > innig2Score ? " won" : " lost";
