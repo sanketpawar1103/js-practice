@@ -19,7 +19,7 @@ function displayscoreBoard(inningNumber, currentBatter, score, targetScore) {
   console.log(designScoreBoard());
 }
 
-function hitTheBall(inningNumber, score, currentBatter) {
+function hitTheBall() {
   const botsHit = Math.floor(Math.random() * 7);
   const usersHitInStr = prompt("\n\nHit the shot(0 - 6) :");
   const usersHit = parseInt(usersHitInStr);
@@ -29,7 +29,7 @@ function hitTheBall(inningNumber, score, currentBatter) {
 }
 
 function playMatch(score, inningNumber, currentBatter, targetScore) {
-  const hits = hitTheBall(inningNumber, score, currentBatter);
+  const hits = hitTheBall();
   const isUserBatting = currentBatter === "User  ";
 
   if (hits[0] === hits[1] || (isUserBatting && hits[1] > 6) ) {
