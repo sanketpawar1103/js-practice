@@ -23,7 +23,7 @@ function displayPattern(row, col) {
 function main(args) {
   const row = args[0] || 5;
   const col = args[1] || 5;
-  displayPattern(row, col);
+  displayPattern(parseInt(row), parseInt(col));
 
   return;
 }
