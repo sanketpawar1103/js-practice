@@ -37,7 +37,7 @@ function readStepsCount(noOfMoves) {
   const noOfStepsStr = prompt("Enter number of steps (1 / 2) :");
   const noOfStepsInt = parseInt(noOfStepsStr);
 
-  if (noOfStepsInt > 2 || noOfStepsInt === undefined) {
+  if (noOfStepsInt > 2 || noOfStepsStr.length === 0) {
     return main(noOfMoves + 1);
   }
 
@@ -45,7 +45,7 @@ function readStepsCount(noOfMoves) {
 }
 
 function playGame(pos, currentStepNum, noOfMoves) {
-  if (currentStepNum >= 17) {
+  if (currentStepNum > 17) {
     return "Congratulations.\nYou reach the";
   }
 
