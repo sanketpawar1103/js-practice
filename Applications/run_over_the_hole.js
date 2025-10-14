@@ -1,43 +1,69 @@
-function createDelay() {
-  for (let index = 0; index < 1000000000; index++) {}
+function manageGrid(pos) {
+  switch (pos[1]) {
+    case 1 : return main();
+  }
+
+  const mainGrid = createGritWithPlayer(pos);
+  return displayGrid(mainGrid);
 }
 
 function displayGrid(lines) {
   for (let index = 0; index < lines.length; index++) {
     console.log(lines[index].join(""));
   }
+
+  return;
+}
+
+function readStepsCount() {
+  const noOfStepsStr = prompt("Enter number of steps (1 / 2) :");
+  const noOfStepsInt = parseInt(noOfStepsStr);
+
+  if (noOfStepsInt > 2) {
+    return main();
+  }
+
+  return noOfStepsInt;
 }
 
 function createGritWithPlayer(pos) {
-  let lines = [];
+  let mainGrid = [];
 
   for (let row = 0; row < 6; row++) {
-    let line = [];
+    let innerArray = [];
     for (let col = 0; col < 3; col++) {
-      line.push("⬜️");
+      innerArray.push("⬜️");
     }
-    lines.push(line);
+    mainGrid.push(innerArray);
   }
 
-  lines[pos[0]][pos[1]] = "🚶‍♂️";
-  return lines;
+  mainGrid[pos[0]][pos[1]] = "🚶‍♂️";
+  return mainGrid;
 }
 
-function playGame(pos) {
-  const lines = createGritWithPlayer(pos);
-  displayGrid(lines);
-  createDelay();
-  pos[1] = (pos[1] + 1) % 3;
-
-  if (pos[1] === 0) {
-    pos[0] += 1;
+function playGame(pos, numberOfMoves) {
+  if (numberOfMoves >= 17) {
+    return "Congratulations.\nYou reach the";
   }
 
+  const noOfSteps = readStepsCount();
   console.clear();
+  pos[1] = pos[1] + noOfSteps;
 
-  if (pos[0] < 6 && pos[1] < 3) {
-    playGame([pos[0], pos[1]]);
+  if (pos[1] >= 3) {
+    pos[0] += 1;
+    pos[1] = pos[1] % 3;
   }
+
+  manageGrid(pos);
+  return playGame([pos[0], pos[1]], numberOfMoves + noOfSteps);
 }
 
-playGame([0, 0]);
+function main() {
+  const mainGrid = createGritWithPlayer([0, 0]);
+  displayGrid(mainGrid);
+  console.log(playGame([0, 0], 1));
+  return;
+}
+
+main();
