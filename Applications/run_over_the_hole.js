@@ -10,7 +10,8 @@ function createGritWithPlayer(pos) {
     mainGrid.push(innerArray);
   }
 
-  mainGrid[pos[0]][pos[1]] = "🚶‍♂️";
+  mainGrid[pos[0]][pos[1]] = pos[0] === 0 && pos[1] === 0 ? "😔" : "😀";
+
   return mainGrid;
 }
 
@@ -25,34 +26,48 @@ function manageGrid(pos) {
   displayGrid(mainGrid);
 }
 
+function areSamePosition(pos1, pos2) {
+  return pos1[0] === pos2[0] && pos1[1] === pos2[1];
+}
+
 function isHole(pos) {
-  switch (pos[1]) {
-    case 0: return false;
-    case 1: return true;
-    case 2: return false;
+  const holes = [[0, 1], [1, 0], [1, 2], [2, 2], [3, 1], [4, 1], [5, 1]];
+  for (let i = 0; i < holes.length; i++) {
+    const hole = holes[i];
+    if (areSamePosition(pos, hole)) {
+      return true;
+    }
   }
+
+  return false;
+}
+
+function isValidStepCount(noOfStepsStr) {
+  const isValidValue = noOfStepsStr === "1" || noOfStepsStr === "2";
+  return isValidValue;
 }
 
 function readStepsCount(noOfMoves) {
   const noOfStepsStr = prompt("Enter number of steps (1 / 2) :");
   const noOfStepsInt = parseInt(noOfStepsStr);
 
-  if (noOfStepsInt > 2 || noOfStepsStr.length === 0) {
-    return main(noOfMoves + 1);
+  if (isValidStepCount(noOfStepsStr)) {
+    return noOfStepsInt;
   }
 
-  return noOfStepsInt;
+  return main(noOfMoves + 1);
 }
 
 function playGame(pos, currentStepNum, noOfMoves) {
-  if (currentStepNum > 17) {
-    return "Congratulations.\nYou reach the";
+  if (currentStepNum >= 17) {
+    console.log("Congratulations.\nYou reach the destination");
+    return;
   }
 
   const noOfSteps = readStepsCount(noOfMoves);
   console.clear();
-  console.log(`Number of moves : ${noOfMoves}`);
-  const updatedPosition = updatePlayersPosition (pos, noOfSteps);
+  displayMoves(noOfMoves);
+  const updatedPosition = updatePlayersPosition(pos, noOfSteps);
 
   if (isHole(updatedPosition)) {
     return main(noOfMoves + 1);
@@ -73,11 +88,17 @@ function updatePlayersPosition(pos, noOfSteps) {
   return pos;
 }
 
+function displayMoves(noOfMoves) {
+  console.log(`|${"-".repeat(20)}|`);
+  console.log("|" + `Number of moves : ${noOfMoves}`.padStart(20) + "|");
+  console.log("|" + "-".repeat(20) + "|\n" );
+}
+
 function main(noOfMoves = 1, pos = [0, 0]) {
   console.clear();
+  displayMoves(noOfMoves);
   manageGrid(pos);
-  console.log(playGame([0, 0], 1, noOfMoves));
-  return;
+  playGame([0, 0], 0, noOfMoves);
 }
 
 main();
