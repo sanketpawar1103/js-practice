@@ -1,52 +1,67 @@
 const choices = ["bat", "ball"];
+const tossCalls = ["heads", "tails"];
 
 function designScoreBoard() {
-  return "|"+ "-".repeat(20) + "|";
+  return "\t|"+ "-".repeat(24) + "|";
 }
 
-function displayscoreBoard(inningNumber, currentBatter, score, targetScore) {
+function displayStr(str, start, end) {
+  console.log(`\t|${str.padStart(start).padEnd(end)}|`);
+  console.log(designScoreBoard());
+}
+
+function createRandomNumber(lastNumber) {
+  return Math.floor(Math.random() * lastNumber);
+}
+
+function displayScoreBoard(inningNumber, crrtBatter, score, targetScore) {
   console.clear();
   console.log(designScoreBoard());
 
   if (targetScore !== undefined) {
-    console.log("|   Target is :", targetScore + "   |");
-    console.log(designScoreBoard());
+    displayStr(`Target is : ${targetScore}`, 18, 24);
   }
 
-  console.log("|  " + inningNumber + "  |");
-  console.log(designScoreBoard());
-  console.log(`|${currentBatter} score is : ${score} |`);
-  console.log(designScoreBoard());
+  displayStr(inningNumber, 18, 24);
+  displayStr(`${crrtBatter}'s score is : ${score}`, 20, 24);
 }
 
-function hitTheBall() {
-  const botsHit = Math.floor(Math.random() * 7);
-  const usersHitInStr = prompt("\n\nHit the shot(0 - 6) :");
-  const usersHit = parseInt(usersHitInStr);
-  const hits = [botsHit, usersHit];
+function createMsgForPlayer(isplayerBatting) {
+  const battingMsg = "\n\n\t Hit the shot(0 - 6) :";
+  const ballingMsg = "\n\n\t Guess the hit(0 - 6) :";
+  const msg = isplayerBatting ? battingMsg : ballingMsg;
 
-  return hits;
+  return msg;
 }
 
-function playMatch(score, inningNumber, currentBatter, targetScore) {
-  const hits = hitTheBall();
-  const isUserBatting = currentBatter === "User  ";
+function hitTheBall(isplayerBatting) {
+  const botsHit = createRandomNumber(7);
+  const playersHitInStr = prompt(createMsgForPlayer(isplayerBatting));
+  const playersHit = parseInt(playersHitInStr);
 
-  if (hits[0] === hits[1] || (isUserBatting && hits[1] > 6) ) {
-    console.log("Out");
+  return [botsHit, playersHit];
+}
+
+function playMatch(score, inningNumber, crrtBatter, targetScore) {
+  const isplayerBatting = crrtBatter === "Player";
+
+  const hits = hitTheBall(isplayerBatting);
+
+  if (hits[0] === hits[1] || (isplayerBatting && hits[1] > 6) ) {
+    console.log("\t\tOut\n");
     return score;
   }
 
-  score += currentBatter === "System" ? hits[0] : hits[1];
+  score += isplayerBatting ? hits[1] : hits[0];
 
   if (targetScore <= score) {
-    displayscoreBoard(inningNumber, currentBatter, score, targetScore);
+    displayScoreBoard(inningNumber, crrtBatter, score, targetScore);
     return;
   }
 
-  displayscoreBoard(inningNumber, currentBatter, score, targetScore);
+  displayScoreBoard(inningNumber, crrtBatter, score, targetScore);
 
-  return playMatch(score, inningNumber, currentBatter, targetScore);
+  return playMatch(score, inningNumber, crrtBatter, targetScore);
 }
 
 function decideWinner(firstBattingTeam, innig1Score, innig2Score) {
@@ -57,62 +72,86 @@ function decideWinner(firstBattingTeam, innig1Score, innig2Score) {
   return firstBattingTeam += innig1Score > innig2Score ? " won" : " lost";
 }
 
-function handleInnings(firstBattingTeam, firstBallingTeam) {
-  const firstInningBatter = "Inning of " + firstBattingTeam;
-  const secondInning = "Inning of " + firstBallingTeam;
-
-  displayscoreBoard(firstInningBatter, firstBattingTeam, 0);
-  const innig1Score = playMatch(0, firstInningBatter, firstBattingTeam);
-  displayscoreBoard(secondInning, firstBallingTeam, 0, innig1Score + 1);
-
+function manageInnings(firstInning, firstBattingTeam, secondInning, firstBallingTeam) {
+  const innig1Score = playMatch(0, firstInning, firstBattingTeam);
+  displayScoreBoard(secondInning, firstBallingTeam, 0, innig1Score + 1);
   const innig2Score = playMatch(0, secondInning, firstBallingTeam, innig1Score);
   const matchResult = decideWinner(firstBattingTeam, innig1Score, innig2Score);
-  console.log(matchResult);
+
+  return matchResult;
+}
+
+function manageGameFlow(firstBattingTeam, firstBallingTeam) {
+  const firstInning = `Inning of ${firstBattingTeam}`;
+  displayScoreBoard(firstInning, firstBattingTeam, 0);
+  const secondInning = `Inning of ${firstBallingTeam}`;
+
+  const matchResult = manageInnings(firstInning, firstBattingTeam, secondInning, firstBallingTeam);
+
+  console.log(`\t|${(matchResult.padStart(15)).padEnd(24)}|`);
+  console.log(designScoreBoard());
 
   return;
 }
 
 function manageMatch(choice, tossWinnerTeam, tossLosserTeam) {
   if (choice === "bat") {
-    return handleInnings(tossWinnerTeam, tossLosserTeam);
+    return manageGameFlow(tossWinnerTeam, tossLosserTeam);
   }
 
-  return handleInnings(tossLosserTeam, tossWinnerTeam);
+  return manageGameFlow(tossLosserTeam, tossWinnerTeam);
 }
 
 function chooseBatOrBall(tossWinner) {
-  if (tossWinner === "System") {
-    const systemsChoice = Math.floor(Math.random() * 2);
-    console.log(`Systems decision is : ${choices[systemsChoice]} first`);
-    manageMatch(choices[systemsChoice], tossWinner, "User  ");
+  if (tossWinner === "bot") {
+    const botsChoice = choices[createRandomNumber(2)];
+    console.log(`bots decision is : ${botsChoice} first`);
+    manageMatch(botsChoice, tossWinner, "Player");
 
     return;
   }
 
-  const usersChoice = prompt("bat or ball :");
-  manageMatch(usersChoice, tossWinner, "System");
+  const playersChoice = prompt("\nbat or ball :");
+
+  if (!choices.includes(playersChoice)) {
+    console.clear();
+    console.log("Invalid choice : bat / ball\n"); 
+    return chooseBatOrBall(tossWinner);
+  }
+
+  manageMatch(playersChoice, tossWinner, "bot");
 }
 
-function doesUserWin(playersCall) {
-  const tossResult = Math.floor(Math.random() * 2);
+function doesplayerWin(playersCall) {
+  const tossResult = tossCalls[createRandomNumber(2)];
 
   if (playersCall === tossResult) {
     console.log("You Won the toss.!!!");
-    return chooseBatOrBall("User  ");
+    return chooseBatOrBall("Player");
   }
 
-  console.log("You lost the toss.!!!");
-  return chooseBatOrBall("System");
+  console.log("Bot won the toss.!!!");
+  return chooseBatOrBall("bot");
 }
 
 function tossTime() {
-  const playersCallInString = prompt("Enter your Call for toss (0/1) :");
-  return parseInt(playersCallInString);
+  const playersCallInString = prompt("Call for toss :");
+
+  if (!tossCalls.includes(playersCallInString)) {
+    console.clear();
+    console.log("Invalid call.");
+    console.log("Call heads or tails");
+
+    return tossTime();
+  }
+
+  return playersCallInString;
 }
 
 function playGame() {
+  console.clear();
   const playersCall = tossTime();
-  doesUserWin(playersCall);
+  return doesplayerWin(playersCall);
 }
 
 playGame();
