@@ -64,8 +64,11 @@ function testArrays() {
   testCase("Array with integers only", [1, 2, 3], "li1ei2ei3ee");
   testCase("Array with strins only", ["aa", "bb", "cc"], "l2:aa2:bb2:cce");
   testCase("Empty array", [], "le");
+  testCase("Empty array with empty string", ["", ""], "l0:0:e");
   testCase("Array with mixed types", [123, "Hello", 34], "li123e5:Helloi34ee");
   testCase("Array with confusing elements", ["le", "l", "e", "el", "le"], "l2:le1:l1:e2:el2:lee");
+  testCase("Test nested arrays", [123, "hi", []], "li123e2:hilee");
+  testCase("Confusing nested arrays", [1, "", [[[1, 2, "hi"]]]], "li1e0:llli1ei2e2:hieeee");
   console.log("-".repeat(50));
 }
 
