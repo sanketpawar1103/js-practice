@@ -1,7 +1,18 @@
+function encodeObject(dataPacket) {
+  let encodedObject = "l";
+
+  for (let index = 0; index < dataPacket.length; index++) {
+    encodedObject += encode(dataPacket[index]);
+  }
+
+  return encodedObject + "e";
+}
+
 function encode(dataPacket) {
   switch(typeof dataPacket) {
-    case "string": return `${dataPacket.length}:${dataPacket}`;
-    case "number": return `i${dataPacket}e`;
+    case "string" : return `${dataPacket.length}:${dataPacket}`;
+    case "number" : return `i${dataPacket}e`;
+    case "object" : return encodeObject(dataPacket, 0);
   }
 }
 
@@ -47,10 +58,22 @@ function testStrings() {
   console.log("-".repeat(50));
 }
 
+function testArrays() {
+  console.log("Test only arrays as an input :\n");
+  testCase("Array with only one element", ["Sanket"], "l6:Sankete");
+  testCase("Array with integers only", [1, 2, 3], "li1ei2ei3ee");
+  testCase("Array with strins only", ["aa", "bb", "cc"], "l2:aa2:bb2:cce");
+  testCase("Empty array", [], "le");
+  testCase("Array with mixed types", [123, "Hello", 34], "li123e5:Helloi34ee");
+  testCase("Array with confusing elements", ["le", "l", "e", "el", "le"], "l2:le1:l1:e2:el2:lee");
+  console.log("-".repeat(50));
+}
+
 function testAll() {
   console.log(`\n${"-".repeat(50)}`);
   testIntegers();
   testStrings();
+  testArrays();
 }
 
 testAll();
