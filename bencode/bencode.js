@@ -12,7 +12,7 @@ function encode(dataPacket) {
   switch(typeof dataPacket) {
     case "string" : return `${dataPacket.length}:${dataPacket}`;
     case "number" : return `i${dataPacket}e`;
-    case "object" : return encodeObject(dataPacket, 0);
+    case "object" : return encodeObject(dataPacket);
   }
 }
 
