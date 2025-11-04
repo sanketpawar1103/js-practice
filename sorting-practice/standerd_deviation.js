@@ -2,7 +2,6 @@ let iterationCount = 0;
 
 function sort(data) {
   const sortedArray = data.slice();
-
   for (let i = 0; i < sortedArray.length; i++) {
     for (let j = i + 1; j < sortedArray.length; j++) {
       iterationCount++;
@@ -26,7 +25,7 @@ function findMedian(array) {
   return array[Math.floor(array.length / 2)];
 }
 
-function deviationOf(array) {
+function stdDeviationOf(array) {
   let sum = 0;
   for (let index = 0; index < array.length; index++) {
     sum += array[index] ** 2;
@@ -35,12 +34,12 @@ function deviationOf(array) {
   return Math.sqrt(sum) / array.length;
 }
 
-function displayOutput(array, sortedArray, median, deviation) {
+function displayOutput(array, sortedArray, median, stdDeviation) {
   const saperationLine = '-'.repeat(50);
   let msg = `${saperationLine}\nOriginal array : ${array}\n`;
   msg += `${saperationLine}\nSorted array : ${sortedArray}\n`;
   msg += `${saperationLine}\nMedian : ${median}\n`;
-  msg += `${saperationLine}\nDeviation : ${deviation}\n${saperationLine}`;
+  msg += `${saperationLine}\nStanderd deviation : ${stdDeviation}\n${saperationLine}`;
 
   console.log(msg);
   console.log(`Benchmark value = ${iterationCount}\n${saperationLine}`);
@@ -55,8 +54,8 @@ function benchmark(numberOfElements) {
 
   const sortedArray = sort(array);
   const median = findMedian(sortedArray);
-  const deviation = deviationOf(sortedArray);
-  displayOutput(array, sortedArray, median, deviation);
+  const stdDeviation = stdDeviationOf(sortedArray);
+  displayOutput(array, sortedArray, median, stdDeviation);
 }
 
 benchmark(10);
