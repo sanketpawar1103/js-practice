@@ -39,9 +39,9 @@ function displayOutput(array, sortedArray, median, stdDeviation) {
   let msg = `${saperationLine}\nOriginal array : ${array}\n`;
   msg += `${saperationLine}\nSorted array : ${sortedArray}\n`;
   msg += `${saperationLine}\nMedian : ${median}\n`;
-  msg += `${saperationLine}\nStanderd deviation : ${stdDeviation}\n${saperationLine}`;
+  msg += `${saperationLine}\nStanderd deviation : ${stdDeviation}\n`;
 
-  console.log(msg);
+  console.log(msg + saperationLine);
   console.log(`Benchmark value = ${iterationCount}\n${saperationLine}`);
 }
 
