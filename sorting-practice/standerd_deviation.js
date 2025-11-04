@@ -22,23 +22,37 @@ function createRandomNumber(limit) {
 }
 
 function findMedian(array) {
-  return array[Math.floor(array.length / 2)];
+  const sortedArray = sort(array);
+  return sortedArray[Math.floor(sortedArray.length / 2)];
+}
+
+function meanOf(array) {
+  let sum = 0;
+
+  for (let index = 0; index < array.length; index++) {
+    sum += array[index];
+  }
+
+  const mean = sum / array.length;
+
+  return mean;
 }
 
 function stdDeviationOf(array) {
+  const mean = meanOf(array);
   let sum = 0;
+
   for (let index = 0; index < array.length; index++) {
-    sum += array[index] ** 2;
+    sum += (array[index] - mean) ** 2;
   }
 
-  return Math.sqrt(sum) / array.length;
+  return Math.sqrt(sum / array.length);
 }
 
-function displayOutput(array, sortedArray, median, stdDeviation) {
+function displayOutput(array, stdDeviation) {
   const saperationLine = '-'.repeat(50);
   let msg = `${saperationLine}\nOriginal array : ${array}\n`;
-  msg += `${saperationLine}\nSorted array : ${sortedArray}\n`;
-  msg += `${saperationLine}\nMedian : ${median}\n`;
+  msg += `${saperationLine}\nMedian : ${findMedian(array)}\n`;
   msg += `${saperationLine}\nStanderd deviation : ${stdDeviation}\n`;
 
   console.log(msg + saperationLine);
@@ -52,10 +66,8 @@ function benchmark(numberOfElements) {
     array.push(createRandomNumber(10));
   }
 
-  const sortedArray = sort(array);
-  const median = findMedian(sortedArray);
-  const stdDeviation = stdDeviationOf(sortedArray);
-  displayOutput(array, sortedArray, median, stdDeviation);
+  const stdDeviation = stdDeviationOf(array);
+  displayOutput(array, stdDeviation);
 }
 
 benchmark(10);
