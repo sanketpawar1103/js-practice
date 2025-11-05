@@ -1,72 +1,66 @@
-function encodeList(dataPacket) {
+function encodeList(data) {
   let encodedList = "l";
 
-  for (let index = 0; index < dataPacket.length; index++) {
-    encodedList += encode(dataPacket[index]);
+  for (let index = 0; index < data.length; index++) {
+    encodedList += encode(data[index]);
   }
 
   return encodedList + "e";
 }
 
-function encodeString(dataPacket) {
-  return `${dataPacket.length}:${dataPacket}`;
+function encodeString(data) {
+  return `${data.length}:${data}`;
 }
 
-function encodeInteger(dataPacket) {
-  return `i${dataPacket}e`;
+function encodeInteger(data) {
+  return `i${data}e`;
 }
 
-function encode(dataPacket) {
-  switch(typeof dataPacket) {
-    case "string" : return encodeString(dataPacket);
-    case "number" : return encodeInteger(dataPacket);
-    case "object" : return encodeList(dataPacket);
+function encode(data) {
+  switch(typeof data) {
+    case "string" : return encodeString(data);
+    case "number" : return encodeInteger(data);
+    case "object" : return encodeList(data);
   }
 }
 
-function decodeInteger(data, remainingString, cursor) {
-  const endIndex = remainingString.indexOf('e') + 1;
+function decodeInteger(data, remainingStr, cursor) {
+  const endIndex = remainingStr.indexOf('e') + cursor;
   const decodedInt = parseInt(data.slice(cursor, endIndex));
 
-  return [decodedInt, cursor + endIndex];
+  return [decodedInt, endIndex + 1];
 }
 
 function decodeList(data, cursor) {
   const decodedList = [];
 
   while (data[cursor] !== 'e') {
-    const dataPacket = decodeBencode(data, cursor);
-    decodedList.push(dataPacket[0]);
-    cursor = dataPacket[1];
+    const data = decodeBencode(data, cursor);
+    decodedList.push(data[0]);
+    cursor = data[1];
   }
 
   return [decodedList, cursor + 1];
 }
 
-function decodeString(data, remainingStr, cursor) {
-  const colPos = remainingStr.indexOf(':');
-  const strLength = parseInt(data.slice(cursor, colPos));
-  const updatedCursor = cursor + colPos + strLength;
+function decodeString(data, cursor) {
+  const colPos = data.indexOf(':') + 1;
+  const strLength = +(data.slice(0, colPos));
+  const newCursor = cursor + colPos + strLength;
 
-  return [remainingStr.slice(colPos + 1, colPos + strLength), updatedCursor];
+  return [data.slice(colPos, colPos + strLength), newCursor];
 }
 
-function decodeBencode(dataPacket, cursor) {
-  switch (dataPacket[cursor]) {
-    case 'i':
-      cursor = cursor + 1;
-      return decodeInteger(dataPacket, dataPacket.slice(cursor), cursor);
-    case 'l':
-      cursor = cursor + 1;
-      console.log(cursor);
-      return decodeList(dataPacket, cursor);
-    default:
-      return decodeString(dataPacket, dataPacket.slice(cursor), cursor);
+function decodeBencode(data, cursor) {
+  switch (data[cursor]) {
+    case 'i': return decodeInteger(data, data.slice(cursor + 1), cursor + 1);
+    case 'l': return decodeList(data, cursor + 1);
+    default: return decodeString(data.slice(cursor), cursor);
   }
 }
 
-function decode(dataPacket) {
-  return decodeBencode(dataPacket, 0)[0];
+function decode(data) {
+  return decodeBencode(data, 0)[0];
 }
 
 function areEqual(array1, array2, index) {
@@ -113,9 +107,9 @@ function composeMessage(description, actualResult, expectedResult, input) {
   console.log(message);
 }
 
-function testCase(description, dataPacket, expected, task) {
-  const actual = task === "encode" ? encode(dataPacket) : decode(dataPacket);
-  composeMessage(description, actual, expected, dataPacket);
+function testCase(description, data, expected, task) {
+  const actual = task === "encode" ? encode(data) : decode(data);
+  composeMessage(description, actual, expected, data);
 }
 
 function testIntegersEncode() {
@@ -185,14 +179,14 @@ function testStringsDecode() {
 
 function testArraysDecode() {
   console.log("3. Test only arrays as an input :\n");
-  // testCase("Array with only one element", "l6:Sankete", ["Sanket"], "decode");
   testCase("Array with integers only", "li1ei2ei3ee", [1, 2, 3], "decode");
-  // testCase("Array with strins only", "l2:aa2:bb2:cce", ["aa", "bb", "cc"], "decode");
+  testCase("Array with strins only", "l2:aa2:bb2:cce", ["aa", "bb", "cc"], "decode");
   testCase("Empty array", "le", [], "decode");
-  // testCase("Empty array with empty string", "l0:0:e", ["", ""], "decode");
-  // testCase("Array with mixed types", "li123e5:Helloi34ee", [123, "Hello", 34], "decode");
-  // testCase("Array with confusing elements", "l2:le1:l1:e2:el2:lee", ["le", "l", "e", "el", "le"], "decode");
-  // testCase("Test nested arrays", "li123e2:hilee", [123, "hi", []], "decode");
+  testCase("Array with only one element", "l6:Sankete", ["Sanket"], "decode");
+  testCase("Empty array with empty string", "l0:0:e", ["", ""], "decode");
+  testCase("Array with mixed types", "li123e5:Helloi34ee", [123, "Hello", 34], "decode");
+  testCase("Array with confusing elements", "l2:le1:l1:e2:el2:lee", ["le", "l", "e", "el", "le"], "decode");
+  testCase("Test nested arrays", "li123e2:hilee", [123, "hi", []], "decode");
   console.log("-".repeat(50));
 }
 
