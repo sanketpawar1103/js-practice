@@ -35,9 +35,9 @@ function decodeList(data, cursor) {
   const decodedList = [];
 
   while (data[cursor] !== 'e') {
-    const data = decodeBencode(data, cursor);
-    decodedList.push(data[0]);
-    cursor = data[1];
+    const dataPacket = decodeBencode(data, cursor);
+    decodedList.push(dataPacket[0]);
+    cursor = dataPacket[1];
   }
 
   return [decodedList, cursor + 1];
@@ -45,7 +45,7 @@ function decodeList(data, cursor) {
 
 function decodeString(data, cursor) {
   const colPos = data.indexOf(':') + 1;
-  const strLength = +(data.slice(0, colPos));
+  const strLength = +(data.slice(0, colPos - 1));
   const newCursor = cursor + colPos + strLength;
 
   return [data.slice(colPos, colPos + strLength), newCursor];
