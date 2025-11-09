@@ -1,9 +1,9 @@
 const wordsStartingWithA = (wordsSetStartWithA, word) => {
-    if (word.startsWith('a') || word.startsWith('A')) {
-      wordsSetStartWithA.push(word);
-    }
+  if (word.startsWith('a') || word.startsWith('A')) {
+    wordsSetStartWithA.push(word);
+  }
 
-    return wordsSetStartWithA;
+  return wordsSetStartWithA;
 };
 
 const main = function(list) {
