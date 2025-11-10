@@ -1,15 +1,6 @@
-const wordsStartingWithA = (wordsSetStartWithA, word) => {
-  if (word.startsWith('a') || word.startsWith('A')) {
-    wordsSetStartWithA.push(word);
-  }
-
-  return wordsSetStartWithA;
-};
-
 const main = function(list) {
   const words = list.flatMap((element) => element.split(' '));
-
-  return words.reduce(wordsStartingWithA, []);
+  return words.filter((word) => word[0].toUpperCase() === 'A');
 };
 
 function areEqual(array1, array2, index) {
