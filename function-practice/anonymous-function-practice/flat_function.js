@@ -1,6 +1,16 @@
-const flatFun = (input) => {
-  return [];
-}
+const flatFun = (list, flattenedArray) => {
+  for (let index = 0; index < list.length; index++) {
+    if (!Array.isArray(list[index])) {
+      flattenedArray.push(list[index]);
+    }
+
+    if (Array.isArray(list[index])) {
+      flatFun(list[index], flattenedArray);
+    }
+  }
+
+  return flattenedArray;
+};
 
 function areEqual(array1, array2, index) {
   if (index > array1.length) {
@@ -31,7 +41,7 @@ function areDeepEqual(array1, array2) {
 }
 
 function testCase(description, input, expectedResult) {
-  const actualResult = flatFun(input);
+  const actualResult = flatFun(input, []);
   let emoji = areDeepEqual(expectedResult, actualResult) ? "✅" : "❌";
 
   if (emoji === "✅") {
@@ -49,6 +59,9 @@ function testCase(description, input, expectedResult) {
 
 const testAll = () => {
   testCase('An empty array', [], []);
+  testCase('A linear array', [1, 2, 3], [1, 2, 3]);
+  testCase('A nested array', [1, [2], 3], [1, 2, 3]);
+  testCase('2 nested arrays', [[1, 2], [3, 4]], [1, 2, 3, 4]);
 };
 
 testAll();
