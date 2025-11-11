@@ -16,3 +16,6 @@ const INTERNS = [
 
 // Display the details of interns from Kerala
 console.log(INTERNS.filter(i => i.state === 'Kerala'));
+
+// Display the details of interns whose name starts with 's'
+console.log(INTERNS.filter(x => x.name.startsWith('S')));
