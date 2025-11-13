@@ -19,3 +19,5 @@ console.log(INTERNS.filter(i => i.state === 'Kerala'));
 
 // Display the details of interns whose name starts with 's'
 console.log(INTERNS.filter(x => x.name.startsWith('S')));
+
+// Display the details of interns having uniqu
