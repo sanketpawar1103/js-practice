@@ -1,7 +1,7 @@
 console.log("Selection sort..");
 
 const fakeDelay = () => {
-  for (let index = 0; index < 1800000000; index++) {}
+  for (let index = 0; index < 2000000000; index++) {}
 };
 
 const swapper = (array, i, j) => {
@@ -10,9 +10,12 @@ const swapper = (array, i, j) => {
   array[j] = numHolder;
 };
 
-const visualiser = (array) => {
+const visualiser = (array, i, j) => {
   for (let index = 0; index < array.length; index++) {
-    console.log(`${array[index] + "⬜️".repeat(array[index])}`);
+    const block = index === i || index === j ? "🟧" : "⬜️";
+    console.log(
+      `${(array[index] + "").padEnd(3) + block.repeat(array[index])}`,
+    );
   }
 };
 
@@ -25,7 +28,7 @@ const selectionSort = (array) => {
         swapper(array, i, j);
       }
 
-      visualiser(array);
+      visualiser(array, i, j);
       fakeDelay();
     }
   }
@@ -33,4 +36,14 @@ const selectionSort = (array) => {
   return array;
 };
 
-console.log(selectionSort([3, 5, 1, 6]));
+const randomArray = () => {
+  const array = [];
+
+  for (let index = 0; index < 10; index++) {
+    array.push(Math.floor(Math.random() * 30));
+  }
+
+  return array;
+};
+
+selectionSort(randomArray());
