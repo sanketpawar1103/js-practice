@@ -1,5 +1,3 @@
-let iterationCount = 0;
-
 const fakeDelay = () => {
   for (let index = 0; index < 2000000000; index++) {}
 };
@@ -16,10 +14,8 @@ const visualiser = (array, i, j, technique) => {
   console.log(`\t|${"-".repeat(25)}|\n`);
 
   for (let index = 0; index < array.length; index++) {
-    const block = index === i || index === j ? "🟧" : "⬜️";
-    console.log(
-      `${(array[index] + "").padEnd(3) + block.repeat(array[index])}`,
-    );
+    const tile = index === i || index === j ? "🟧" : "⬜️";
+    console.log(`${(array[index] + "").padEnd(3) + tile.repeat(array[index])}`);
   }
 };
 
@@ -36,7 +32,7 @@ const selectionSort = (array) => {
       }
 
       console.clear();
-      animate(array, i, j, 'Selection sort...');
+      animate(array, i, j, "Selection sort...");
     }
   }
 
@@ -51,7 +47,7 @@ const bubbleSort = (array) => {
       }
 
       console.clear();
-      animate(array, i, j, 'Bubble sort...');
+      animate(array, i, j, "Bubble sort...");
     }
   }
 };
@@ -82,7 +78,7 @@ const randomArray = () => {
   return array;
 };
 
-const selectVisualiser = (choice) => {
+const selectTechnique = (choice) => {
   switch (choice) {
     case "1":
       return selectionSort;
@@ -91,15 +87,15 @@ const selectVisualiser = (choice) => {
     case "3":
       return insertionSort;
     default:
-      console.log("Invalid Choice");
-      return main;
+      console.log(" Invalid Choice");
+      return main();
   }
 };
 
 const main = () => {
   const msg = " 1. Selection sort\n 2. Bubble sort\n 3. Insertion sort\n";
   const choice = prompt(msg);
-  const sortingFun = selectVisualiser(choice);
+  const sortingFun = selectTechnique(choice);
   return sortingFun(randomArray());
 };
 
