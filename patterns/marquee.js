@@ -1,32 +1,26 @@
-const grid = [
-  " ".repeat(40).split(""),
-  " ".repeat(40).split(""),
-  " ".repeat(40).split(""),
-  " ".repeat(40).split(""),
-  " ".repeat(40).split(""),
-  " ".repeat(40).split(""),
-  " ".repeat(40).split(""),
-];
+const [grid, spaces] = [[], " ".repeat(40).split("")];
+let [text, row, col, inc] = ["Sanket", 0, 0, 0];
 
-let [row, col] = [0, 0];
-const text = "Sanket";
+const clearGrid = () => {
+  for (let index = 0; index < 5; index++) {
+    grid.push(spaces);
+  }
+};
 
-const displayGrid = (row, text) => {
-  const msg = [];
-
-  for (let term = text.length; term < 40 - text.length; term++) {
-    msg[term] = grid[row][term];
+const screen = () => {
+  col = inc;
+  for (let index = 0; index < text.length; index++) {
+    grid[row][col] = text[index];
+    col = (col + 1) % 40;
   }
 
-  console.log(msg.join(""));
+  console.log(grid[row].join(""));
+  grid[row] = " ".repeat(40).split("");
 };
 
 setInterval(() => {
   console.clear();
-  grid[row][col] = text;
-  grid[row] = grid[row].join("").split("");
-  displayGrid(row, text);
-  col += col === (40 - text.length) ? -40 : 1;
-
-  grid[row] = " ".repeat(40).split("");
-}, 200);
+  clearGrid();
+  inc = (inc + 1) % 40;
+  screen();
+}, 100);
