@@ -1,0 +1,9 @@
+#! /bin/echo
+
+
+Hi Jayanth, 
+Karthik and I are exploring hashing individually. While discussing  
+we got to know that we are exploring two different areas.
+Hash Tables for data indexing and Cryptographic Hashing for secure, irreversible data conversion.
+We wanted to clarify if we should focus on one specific area or explore both.
+Important note that, I have started with data structure one, And on the other hand, Karthik started with Cryptographic one.
