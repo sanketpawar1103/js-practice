@@ -1,0 +1,17 @@
+# An input and an expected output combinations for lion hunt game. 
+
+An input            |         An expected output
+
+"L  ZL Z"           |                0
+
+"L    Z "           |                4
+
+"L     L"           |                -1
+
+"Z   Z   Z"         |                -1
+
+"LZ"                |                0
+
+"Z     L"           |                5
+
+"L  ZZ Z"           |                2
