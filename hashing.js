@@ -25,14 +25,18 @@ const fillArray = () => {
   return array;
 };
 
-const changeArray = (element, term) => {
-  if (Array.isArray(element)) {
+const operation = {
+  true: (element, term) => {
     element[element.length] = term;
-  } else {
-    element = [element, term];
-  }
+    return element;
+  },
+  false: (element, term) => [element, term],
+};
 
-  return element;
+const changeArray = (element, term) => {
+  const nestedArr = [...operation[Array.isArray(element)](element, term)];
+
+  return nestedArr;
 };
 
 const isPresent = {
