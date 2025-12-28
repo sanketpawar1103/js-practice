@@ -10,6 +10,8 @@ const searchArrayElements = (array) => {
     while (array[index] !== term && index < array.length) {
       index++;
     }
+
+    console.log(MSG[index < array.length], term);
   }
 };
 
@@ -46,7 +48,7 @@ const fillTable = () => {
   const array = [];
 
   for (let term = 101; term <= 200; term++) {
-    const address = term % 10;
+    const address = term % 25;
     const isNotUndefined = array[address] !== undefined;
 
     array[address] = isPresent[isNotUndefined](array[address], term);
@@ -57,12 +59,14 @@ const fillTable = () => {
 
 const searchTableElement = (array) => {
   for (let term = 20000; term > 0; term--) {
-    const index = term % 10;
+    const index = term % 25;
     let isTableElement = array[index] === term;
 
     if (Array.isArray(array[index])) {
       isTableElement = array[index].some((each) => each === term);
     }
+
+    console.log(MSG[isTableElement], term);
   }
 };
 
