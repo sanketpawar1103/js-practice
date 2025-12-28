@@ -4,14 +4,12 @@ const MSG = {
 };
 
 const searchArrayElements = (array) => {
-  for (let term = 200; term > 90; term--) {
+  for (let term = 20000; term > 0; term--) {
     let index = 0;
 
     while (array[index] !== term && index < array.length) {
       index++;
     }
-
-    console.log(MSG[index < array.length], term);
   }
 };
 
@@ -58,29 +56,21 @@ const fillTable = () => {
 };
 
 const searchTableElement = (array) => {
-  for (let term = 200; term > 90; term--) {
+  for (let term = 20000; term > 0; term--) {
     const index = term % 10;
-    let isTableElement = false;
+    let isTableElement = array[index] === term;
 
     if (Array.isArray(array[index])) {
       isTableElement = array[index].some((each) => each === term);
-    } else if (array[index] === term) {
-      isTableElement = true;
     }
-
-    console.log(MSG[isTableElement] + term);
   }
 };
 
 const main = () => {
   const startTimeOfArrayOperation = performance.now();
-  const filledArray = fillArray();
-  console.log(filledArray);
-  searchArrayElements(filledArray);
+  searchArrayElements(fillArray());
   const endTimeOfArrayOperation = performance.now();
-  const filledTable = fillTable();
-  console.log(filledTable);
-  searchTableElement(filledTable);
+  searchTableElement(fillTable());
   const endTimeOfTableOperation = performance.now();
 
   console.log(
