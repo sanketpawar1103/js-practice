@@ -6,8 +6,6 @@ const MSG = {
 const searchArrayElements = (array) => {
   for (let term = 20000; term > 0; term--) {
     const isPresent = array.some((each) => each === term);
-
-    // console.log(MSG[isPresent], term);
   }
 };
 
@@ -63,8 +61,6 @@ const searchTableElement = (array) => {
     } else if (Array.isArray(array[index])) {
       isTableElement = array[index].some((each) => each === term);
     }
-
-    // console.log(MSG[isTableElement], term);
   }
 };
 
