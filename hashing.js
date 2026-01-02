@@ -6,6 +6,8 @@ const MSG = {
 const searchArrayElements = (array) => {
   for (let term = 20000; term > 0; term--) {
     const isPresent = array.some((each) => each === term);
+
+    // console.log(MSG[isPresent], term);
   }
 };
 
@@ -27,11 +29,11 @@ const operation = {
   false: (element, term) => [element, term],
 };
 
-const changeArray = (element, term) => {
-  const nestedArr = [...operation[Array.isArray(element)](element, term)];
+// const changeArray = (element, term) => {
+//   const nestedArr = [...operation[Array.isArray(element)](element, term)];
 
-  return nestedArr;
-};
+//   return nestedArr;
+// };
 
 const isPresent = {
   true: (element, term) => changeArray(element, term),
@@ -42,10 +44,9 @@ const fillTable = () => {
   const array = [];
 
   for (let term = 101; term <= 200; term++) {
-    const address = term % 10;
-    const isNotUndefined = array[address] !== undefined;
-
-    array[address] = isPresent[isNotUndefined](array[address], term);
+    const address = term % 100;
+    // const isNotUndefined = array[address] !== undefined;
+    array[address] = term;
   }
 
   return array;
@@ -53,14 +54,14 @@ const fillTable = () => {
 
 const searchTableElement = (array) => {
   for (let term = 20000; term > 0; term--) {
-    const index = term % 10;
+    const index = term % 100;
     let isTableElement = false;
 
     if (array[index] === term) {
       isTableElement = true;
-    } else if (Array.isArray(array[index])) {
-      isTableElement = array[index].some((each) => each === term);
     }
+
+    // console.log(MSG[isTableElement], term);
   }
 };
 
